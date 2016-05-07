@@ -22,7 +22,7 @@ exports.default = {
       },
       'welcome': {
         'header': 'Welcome to <strong>{appName}</strong>',
-        'text': '<p>{appName} Messenger brings all your business and social network connections into one place, makes it easily accessible wherever you go.</p>' + '<p>Our goal is to make your working process easier, reduce your email load and make the people in business world closer to each other by reducing time spent on finding the right contacts.</p>',+
+        'text': '<p>{appName} Messenger brings all your business and social network connections into one place, makes it easily accessible wherever you go.</p>' + '<p>Our goal is to make your working process easier, reduce your email load and make the people in business world closer to each other by reducing time spent on finding the right contacts.</p>'+
         '<p>We say it is built for WORK and PLAY.</p>',
         'copyright': '{appName} Messenger © 2016'
       }
