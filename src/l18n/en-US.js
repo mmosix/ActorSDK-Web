@@ -1,4 +1,7 @@
-export default {
+'use strict';
+
+exports.__esModule = true;
+exports.default = {
   'locale': 'en',
   'messages': {
     // Login
@@ -19,8 +22,8 @@ export default {
       },
       'welcome': {
         'header': 'Welcome to <strong>{appName}</strong>',
-        'text': '<p>{appName} Messenger brings all of your business network connections into one place, making it easier to access wherever you go.</p>' +
-                '<p>Our goal is to make your working process easier, reduce your email load and make the people in business world closer to each other by reducing time spent on finding the right contacts.</p>',
+        'text': '<p>{appName} Messenger brings all your business and social network connections into one place, makes it easily accessible wherever you go.</p>' + '<p>Our goal is to make your working process easier, reduce your email load and make the people in business world closer to each other by reducing time spent on finding the right contacts.</p>',+
+        '<p>We say it is built for WORK and PLAY.</p>',
         'copyright': '{appName} Messenger © 2016'
       }
     },
@@ -71,7 +74,7 @@ export default {
       'quote': 'Quote',
       'uploading': 'Uploading...',
       'welcome': {
-        'private': '<p>This is the very beginning of your private conversation with <strong>{name}</strong>.</p><p>All messages here are only visible to the two of you.</p>',
+        'private': '<p>WORK and PLAY with <strong>{name}</strong>.</p><p>All messages here are private between the two of you.</p>',
         'group': {
           'main': '<p>This is the very beginning of <strong>{name}</strong> group conversation created by {creator}.</p>',
           'you': 'You',
@@ -88,7 +91,7 @@ export default {
 
     // Connection state
     'connectionState': {
-      'connecting': 'Houston, we have a problem! Connection to {appName} server is lost. Trying to reconnect now...',
+      'connecting': 'Ooops!, Connection to {appName} server is lost. Trying to reconnect now...',
       'online': 'You\'re back online!',
       'updating': 'Update connection'
     },
@@ -115,7 +118,7 @@ export default {
       'profile': {
         'title': 'Profile',
         'name': 'Name',
-        'nick': 'Nickname',
+        'nick': 'Unique ID',
         'phone': 'Phone number',
         'email': 'Email',
         'about': 'About',
@@ -123,7 +126,7 @@ export default {
         'avatarRemove': 'Remove',
         errors: {
           nick: {
-            length: 'Nick should contain from 5 to 32 characters',
+            length: 'Unique ID should contain from 5 to 32 characters',
             chars: 'Please use latin characters, numbers and underscores'
           }
         }
@@ -160,7 +163,7 @@ export default {
       },
       'addContact': {
         'title': 'Add contact',
-        'query': 'Email, nickname or phone number',
+        'query': 'Email, Unique ID or phone number',
         'phone': 'Phone number',
         'notFound': 'User with such data is not found',
         'empty': 'Start typing to find people',
@@ -207,7 +210,7 @@ export default {
     'profile': {
       'email': 'email',
       'phone': 'phone',
-      'nickname': 'nickname',
+      'nickname': 'Unique ID',
       'about': 'about'
     },
     'createdBy': 'сreated by',
@@ -229,11 +232,7 @@ export default {
     'sharedMedia': 'Shared media',
     'notifications': 'Notifications',
     'integrationTokenCopied': 'Integration link copied.',
-    'members': '{numMembers, plural,' +
-      '=0 {No members}' +
-      '=1 {# Member}' +
-      'other {# Members}' +
-    '}',
+    'members': '{numMembers, plural,' + '=0 {No members}' + '=1 {# Member}' + 'other {# Members}' + '}',
     'kick': 'Kick',
     'integrationToken': 'Integration Token',
     'integrationTokenHint': 'If you have programming chops, or know someone who does — this integration token allows the biggest amount of flexibility and communication with your own systems.',
@@ -266,10 +265,10 @@ export default {
     },
 
     'main': {
-      'empty': 'Try to be better than yesterday!',
-      'install': '<h1>The Web version of <b>{appName}</b> works only in desktop browsers at this time</h1>' +
-                 '<h3>Try installing our apps for using <b>{appName}</b> on your phone.</h3>' +
-                 '<p><a href="//actor.im/ios">iPhone</a> | <a href="//actor.im/android">Android</a></p>',
+      'empty': 'WORK and PLAY',
+      'install': '<h1>Web version of <b>{appName}</b> works only on desktop browsers at this time</h1>' +
+                 '<h3>Please install our apps for using <b>{appName}</b> on your phone.</h3>' +
+                 '<p><a href="//africhat.im">iPhone</a> | <a href="//africhat.im">Android</a></p>',
       'deactivated': {
         'header': 'Tab deactivated',
         'text': 'Oops, we have detected another tab with {appName}, so we had to deactivate this one to prevent you from dangerous things happening.'
@@ -296,7 +295,7 @@ export default {
           title: 'Notifications',
           enable: 'Enable group notifications',
           onlyMentionEnable: 'Enable mention only notifications',
-          onlyMentionHint: 'You can enable notifications only for messages that contains you mention.'
+          onlyMentionHint: 'You can enable notifications only for messages that contains your mention.'
         },
         privacy: {
           title: 'Privacy',
@@ -386,3 +385,4 @@ export default {
     }
   }
 };
+//# sourceMappingURL=en-US.js.map
