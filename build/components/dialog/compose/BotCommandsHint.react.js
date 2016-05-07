@@ -30,7 +30,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var DROPDOWN_ITEM_HEIGHT = 38;
+var DROPDOWN_ITEM_HEIGHT = 33;
 var scrollIndex = 0;
 
 var BotCommandsHint = function (_Component) {
@@ -47,48 +47,33 @@ var BotCommandsHint = function (_Component) {
 
     _this.scrollTo = _this.scrollTo.bind(_this);
     _this.onKeyDown = _this.onKeyDown.bind(_this);
+    _this.onDocumentClick = _this.onDocumentClick.bind(_this);
+    _this.onDocumentKeyDown = _this.onDocumentKeyDown.bind(_this);
     _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
+  BotCommandsHint.prototype.componentDidMount = function componentDidMount() {
+    this.listeners = [_EventListener2.default.listen(document, 'click', this.onDocumentClick), _EventListener2.default.listen(document, 'keydown', this.onDocumentKeyDown)];
+  };
+
   BotCommandsHint.prototype.componentWillUnmount = function componentWillUnmount() {
-    this.cleanListeners();
-  };
-
-  BotCommandsHint.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
-    if (nextState.isOpen && !this.state.isOpen) {
-      this.setListeners();
-    } else if (!nextState.isOpen && this.state.isOpen) {
-      this.cleanListeners();
-    }
-  };
-
-  BotCommandsHint.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
-    var commands = props.commands;
-
-    this.setState({
-      isOpen: commands && commands.length > 0,
-      selectedIndex: 0
+    this.listeners.forEach(function (listener) {
+      return listener.remove();
     });
+    this.listeners = null;
   };
 
-  BotCommandsHint.prototype.setListeners = function setListeners() {
-    this.cleanListeners();
-    this.listeners = [_EventListener2.default.listen(document, 'keydown', this.onKeyDown), _EventListener2.default.listen(document, 'click', this.props.onClose)];
+  BotCommandsHint.prototype.onDocumentClick = function onDocumentClick() {
+    this.props.onClose();
   };
 
-  BotCommandsHint.prototype.cleanListeners = function cleanListeners() {
-    if (this.listeners) {
-      this.listeners.forEach(function (listener) {
-        listener.remove();
-      });
-
-      this.listeners = null;
-    }
+  BotCommandsHint.prototype.onDocumentKeyDown = function onDocumentKeyDown(event) {
+    this.onKeyDown(event);
   };
 
   BotCommandsHint.prototype.scrollTo = function scrollTo(top) {
-    var menuListNode = (0, _reactDom.findDOMNode)(this.refs.mentionList);
+    var menuListNode = (0, _reactDom.findDOMNode)(this.refs.list);
     menuListNode.scrollTop = top;
   };
 
@@ -99,16 +84,12 @@ var BotCommandsHint = function (_Component) {
     var visibleItems = 3;
     var index = selectedIndex;
 
-    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
-      this.props.onClose();
-    }
-
     if (index !== null) {
       switch (event.keyCode) {
         case _ActorAppConstants.KeyCodes.ENTER:
           event.stopPropagation();
           event.preventDefault();
-          this.props.onSelect(commands[selectedIndex]);
+          this.props.onSelect(commands[selectedIndex].command);
           break;
 
         case _ActorAppConstants.KeyCodes.ARROW_UP:
@@ -152,6 +133,10 @@ var BotCommandsHint = function (_Component) {
           break;
         default:
       }
+    }
+
+    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
+      this.props.onClose();
     }
   };
 
@@ -202,13 +187,13 @@ var BotCommandsHint = function (_Component) {
   BotCommandsHint.prototype.render = function render() {
     return _react2.default.createElement(
       'div',
-      { className: 'mention mention--opened' },
+      { className: 'bot-commands bot-commands' },
       _react2.default.createElement(
         'div',
-        { className: 'mention__wrapper' },
+        { className: 'bot-commands__wrapper' },
         _react2.default.createElement(
           'header',
-          { className: 'mention__header' },
+          { className: 'bot-commands__header' },
           _react2.default.createElement(
             'div',
             { className: 'pull-left' },
@@ -253,7 +238,7 @@ var BotCommandsHint = function (_Component) {
         ),
         _react2.default.createElement(
           'ul',
-          { className: 'mention__list', ref: 'mentionList' },
+          { className: 'bot-commands__list', ref: 'list' },
           this.renderCommands()
         )
       )

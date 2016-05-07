@@ -10,7 +10,7 @@ import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 
 import { KeyCodes } from '../../../constants/ActorAppConstants';
 
-const DROPDOWN_ITEM_HEIGHT = 38;
+const DROPDOWN_ITEM_HEIGHT = 33;
 let scrollIndex = 0;
 
 class BotCommandsHint extends Component {
@@ -29,49 +29,33 @@ class BotCommandsHint extends Component {
 
     this.scrollTo = this.scrollTo.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.onDocumentClick = this.onDocumentClick.bind(this);
+    this.onDocumentKeyDown = this.onDocumentKeyDown.bind(this);
     this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
   }
 
-  componentWillUnmount() {
-    this.cleanListeners();
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.isOpen && !this.state.isOpen) {
-      this.setListeners();
-    } else if (!nextState.isOpen && this.state.isOpen) {
-      this.cleanListeners();
-    }
-  }
-
-  componentWillReceiveProps(props) {
-    const { commands } = props;
-    this.setState({
-      isOpen: commands && commands.length > 0,
-      selectedIndex: 0
-    });
-  }
-
-  setListeners() {
-    this.cleanListeners();
+  componentDidMount() {
     this.listeners = [
-      EventListener.listen(document, 'keydown', this.onKeyDown),
-      EventListener.listen(document, 'click', this.props.onClose)
+      EventListener.listen(document, 'click', this.onDocumentClick),
+      EventListener.listen(document, 'keydown', this.onDocumentKeyDown)
     ];
   }
 
-  cleanListeners() {
-    if (this.listeners) {
-      this.listeners.forEach((listener) => {
-        listener.remove();
-      });
+  componentWillUnmount() {
+    this.listeners.forEach((listener) => listener.remove());
+    this.listeners = null;
+  }
 
-      this.listeners = null;
-    }
+  onDocumentClick() {
+    this.props.onClose();
+  }
+
+  onDocumentKeyDown(event) {
+    this.onKeyDown(event);
   }
 
   scrollTo(top) {
-    const menuListNode = findDOMNode(this.refs.mentionList);
+    const menuListNode = findDOMNode(this.refs.list);
     menuListNode.scrollTop = top;
   }
 
@@ -81,16 +65,12 @@ class BotCommandsHint extends Component {
     const visibleItems = 3;
     let index = selectedIndex;
 
-    if (event.keyCode === KeyCodes.ESC) {
-      this.props.onClose();
-    }
-
     if (index !== null) {
       switch (event.keyCode) {
         case KeyCodes.ENTER:
           event.stopPropagation();
           event.preventDefault();
-          this.props.onSelect(commands[selectedIndex]);
+          this.props.onSelect(commands[selectedIndex].command);
           break;
 
         case KeyCodes.ARROW_UP:
@@ -135,6 +115,10 @@ class BotCommandsHint extends Component {
         default:
       }
     }
+
+    if (event.keyCode === KeyCodes.ESC) {
+      this.props.onClose();
+    }
   }
 
   renderCommands() {
@@ -163,14 +147,14 @@ class BotCommandsHint extends Component {
 
   render() {
     return (
-      <div className="mention mention--opened">
-        <div className="mention__wrapper">
-          <header className="mention__header">
+      <div className="bot-commands bot-commands">
+        <div className="bot-commands__wrapper">
+          <header className="bot-commands__header">
             <div className="pull-left"><strong>tab</strong>&nbsp; or &nbsp;<strong>↑</strong><strong>↓</strong>&nbsp; to navigate</div>
             <div className="pull-left"><strong>↵</strong>&nbsp; to select</div>
             <div className="pull-right"><strong>esc</strong>&nbsp; to close</div>
           </header>
-          <ul className="mention__list" ref="mentionList">
+          <ul className="bot-commands__list" ref="list">
             {this.renderCommands()}
           </ul>
         </div>
